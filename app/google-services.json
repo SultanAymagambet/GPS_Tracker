@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "741363664017",
+    "project_id": "gps-tracker-dabec",
+    "storage_bucket": "gps-tracker-dabec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741363664017:android:dfebdd7171608bd0dbab30",
+        "android_client_info": {
+          "package_name": "com.example.gps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741363664017-s3dcgdvrvcvdf2ld9cbakos72697h1bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYPWNQBVVIN3rle0yvDbDVssrcfg6-9_E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741363664017-s3dcgdvrvcvdf2ld9cbakos72697h1bk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
