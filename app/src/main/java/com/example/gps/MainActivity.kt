@@ -105,23 +105,29 @@ class MainActivity : AppCompatActivity() {
     private fun run(url: String) {
         val telephonyManager: TelephonyManager =
             getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-//        val cellInfoGsm: CellInfoGsm = telephonyManager.allCellInfo[0] as CellInfoGsm
-//        val cellSignalStrengthGsm: CellSignalStrengthGsm = cellInfoGsm.cellSignalStrength
 
-//        val cellInfoWcdma: CellInfoWcdma = telephonyManager.allCellInfo[0] as CellInfoWcdma
-//        val cellSignalStrengthWcdma: CellSignalStrengthWcdma = cellInfoWcdma.cellSignalStrength
-
-//        val cellInfoLte: CellInfoLte = telephonyManager.allCellInfo[0] as CellInfoLte
-//        val cellSignalStrengthLte: CellSignalStrengthLte = cellInfoLte.cellSignalStrength
-
-//        val dbm2 = cellSignalStrengthGsm.dbm
-//        val dbm3 = cellSignalStrengthWcdma.dbm
-//        val dbm4 = cellSignalStrengthLte.dbm
+        var cellInfoList: List<CellInfo> = telephonyManager.allCellInfo
+        var networkStatus: String = ""
+        if (cellInfoList.isNotEmpty()) {
+            for (cellInfo in cellInfoList) {
+                if (cellInfo is CellInfoGsm) {
+                    val cellSignalStrengthGsm = cellInfo.cellSignalStrength
+                    var intSignalStrength = cellSignalStrengthGsm.dbm
+                    networkStatus = intSignalStrength.toString()
+                } else if (cellInfo is CellInfoWcdma) {
+                    val cellSignalStrengthWcdma = cellInfo.cellSignalStrength
+                    var intSignalStrength = cellSignalStrengthWcdma.dbm
+                    networkStatus = intSignalStrength.toString()
+                } else if (cellInfo is CellInfoLte) {
+                    val cellSignalStrengthLte = cellInfo.cellSignalStrength
+                    var intSignalStrength = cellSignalStrengthLte.dbm
+                    networkStatus = intSignalStrength.toString()
+                }
+            }
+        }
 
         val request = Request.Builder()
-//            .addHeader("X-2G-DBM", dbm2.toString())
-//            .addHeader("X-3G-DBM", dbm3.toString())
-//            .addHeader("X-4G-DBM", dbm4.toString())
+            .addHeader("X-DBM", networkStatus)
             .addHeader("X-TYPE", networkTypeClass(telephonyManager.networkType))
             .url(url)
             .build()
@@ -136,6 +142,7 @@ class MainActivity : AppCompatActivity() {
         createOkHttpClient(applicationContext)
 
     }
+
 
     /** Usage: networkTypeClass(telephonyManager.networkType) */
     fun networkTypeClass(networkType: Int): String {
