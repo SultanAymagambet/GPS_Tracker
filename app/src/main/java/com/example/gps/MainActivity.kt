@@ -1,14 +1,12 @@
 package com.example.gps
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.telephony.CellInfoGsm
-import android.telephony.CellSignalStrengthGsm
-import android.telephony.TelephonyManager
+import android.telephony.*
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -38,11 +36,6 @@ class MainActivity : AppCompatActivity() {
             startTimer()
         }
     }
-
-
-//    private var array: MutableList<String> = ArrayList()
-//    private val database = Firebase.database
-//    private val myRef = database.getReference("data")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,13 +84,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-//                val str: String = findViewById<TextView>(R.id.tv_locations).text.toString()
-//                findViewById<TextView>(R.id.tv_locations).text = "$str \n ${it.latitude}, ${it.longitude}"
-
-//                array.add("${it.latitude}, ${it.longitude}")
-//                myRef.setValue(array)
-
-                run("http://164.92.153.55:8080/get?${it.latitude + it.longitude}")
+                run("http://164.92.153.55:8080/get?${it.latitude}&${it.longitude}")
 //                run("http://20.115.96.179:8000/v1/writeonly/add-tracking?latitude=${it.latitude}&longitude=${it.longitude}")
             }
         }
@@ -118,13 +105,24 @@ class MainActivity : AppCompatActivity() {
     private fun run(url: String) {
         val telephonyManager: TelephonyManager =
             getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-        val cellInfoGsm: CellInfoGsm = telephonyManager.allCellInfo[0] as CellInfoGsm
-        val cellSignalStrengthGsm: CellSignalStrengthGsm = cellInfoGsm.cellSignalStrength
-        val  dbm = cellSignalStrengthGsm.dbm
+//        val cellInfoGsm: CellInfoGsm = telephonyManager.allCellInfo[0] as CellInfoGsm
+//        val cellSignalStrengthGsm: CellSignalStrengthGsm = cellInfoGsm.cellSignalStrength
+
+//        val cellInfoWcdma: CellInfoWcdma = telephonyManager.allCellInfo[0] as CellInfoWcdma
+//        val cellSignalStrengthWcdma: CellSignalStrengthWcdma = cellInfoWcdma.cellSignalStrength
+
+//        val cellInfoLte: CellInfoLte = telephonyManager.allCellInfo[0] as CellInfoLte
+//        val cellSignalStrengthLte: CellSignalStrengthLte = cellInfoLte.cellSignalStrength
+
+//        val dbm2 = cellSignalStrengthGsm.dbm
+//        val dbm3 = cellSignalStrengthWcdma.dbm
+//        val dbm4 = cellSignalStrengthLte.dbm
 
         val request = Request.Builder()
-            .addHeader("X-DBM", dbm.toString())
-            .addHeader("X-GSMTYPE", networkTypeClass(telephonyManager.networkType))
+//            .addHeader("X-2G-DBM", dbm2.toString())
+//            .addHeader("X-3G-DBM", dbm3.toString())
+//            .addHeader("X-4G-DBM", dbm4.toString())
+            .addHeader("X-TYPE", networkTypeClass(telephonyManager.networkType))
             .url(url)
             .build()
 
@@ -141,6 +139,7 @@ class MainActivity : AppCompatActivity() {
 
     /** Usage: networkTypeClass(telephonyManager.networkType) */
     fun networkTypeClass(networkType: Int): String {
+
         when (networkType) {
             TelephonyManager.NETWORK_TYPE_GPRS,
             TelephonyManager.NETWORK_TYPE_EDGE,
