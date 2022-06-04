@@ -84,7 +84,8 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
 
-                run("http://164.92.153.55:8080/get?${it.latitude}&${it.longitude}")
+                run("http://206.189.8.42:8000/get?${it.latitude}&${it.longitude}")
+//                run("http://164.92.153.55:8080/get?${it.latitude}&${it.longitude}")
 //                run("http://20.115.96.179:8000/v1/writeonly/add-tracking?latitude=${it.latitude}&longitude=${it.longitude}")
             }
         }
